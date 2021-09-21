@@ -1,0 +1,89 @@
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Compare Preços</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/public/default.css" />
+	</head>
+	<body>
+		<div class="container" >
+			<br /> <!-- MENU NAV BAR -->
+			<ul class="nav nav-tabs" role="navigation">
+			  <li class="nav-item">
+				<a class="nav-link active" aria-current="page" href="/" role="list">Home</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="/additem" role="list">Adicionar Produtos</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="/simulation" role="list" >Simular Compra</a>
+			  </li>
+			</ul>
+			<br /> <!-- MENU NAV BAR -->
+			<label for="compareProdutos" class="form-label">Compare Produtos</label>
+			<input class="form-control" list="datalistOptions" id="compareProdutos" placeholder="Digite Para Comparar...">
+			<datalist id="datalistOptions"></datalist>
+			<br />
+			<table class="table">
+			  <thead>
+				<tr>
+				  <th scope="col">Produto</th>
+				  <th scope="col">BomDia</th>
+				  <th scope="col">Queiroz</th>
+				</tr>
+			  </thead>
+			  <tbody>
+			  </tbody>
+			</table>
+			<br />
+		</div>
+	</body>
+	<script type="text/javascript">
+		DB = [
+		{name : "Produto1", bomdia : 2.99, queiroz : 2.88, date : "Fri Sep 17 2021"},
+		{name : "Produto2", bomdia : 3.99, queiroz : 5.88, date : "Fri Sep 17 2021"},
+		{name : "Produto3", bomdia : 3.99, queiroz : 5.88, date : "Sat Sep 18 2021"},
+		{name : "Produto4", bomdia : 8.99, queiroz : 5.88, date : "Sat Sep 18 2021"},
+		{name : "Produto5", bomdia : 5.88, queiroz : 5.88, date : "Sat Sep 18 2021"},
+		
+		];
+		
+		
+		const tbody = document.querySelector("tbody");
+		const datalist = document.querySelector("#datalistOptions");
+		
+		function showPriceDay(){
+			for(row in DB){
+				if(DB[row].date == new Date().toDateString()){
+					const {name, bomdia, queiroz} = DB[row];
+					tbody.innerHTML+=`<tr id='tr${row}'><td><span id="Name${row}">${name}</span></td><td><span id="BomDia${row}" class="badge rounded-pill">${bomdia}</span></td><td><span id="Queiroz${row}" class="badge rounded-pill">${queiroz}</span></td></tr>`;
+						
+					document.querySelector(`#Name${row}`).innerHTML=name;
+					BD = document.querySelector(`#Bomdia${row}`);
+					QZ = document.querySelector(`#Queiroz${row}`)
+					if(bomdia < queiroz){
+						BD.classList.add('bg-success');
+						QZ.classList.add('bg-danger');
+					}
+					if(bomdia > queiroz){
+						BD.classList.add('bg-danger');
+						QZ.classList.add('bg-success');
+					}
+					if(bomdia == queiroz){
+						QZ.classList.add('bg-info');
+						BD.classList.add('bg-info');
+					}
+				}
+			}
+		}
+		function datalistPopulate(){
+			for(row in DB){
+				datalist.innerHTML+=`<option value='${DB[row].name}'>${DB[row].name}</option>`;
+			}
+			showPriceDay();
+		}
+		datalistPopulate();
+	</script>
+</html>
