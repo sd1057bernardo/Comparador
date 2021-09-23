@@ -1,19 +1,20 @@
 console.clear();
 console.log("Script Iniciado!")
-const express = require('express');
+const express = require('express'); //
 const app = express();
-
-jsonFile = require("./db.json"); // DATABASE THIS PROJECT*
 
 //VIEWS FILES AND ROUTERS
 app.get('/',(req, res)=>{
-	res.sendFile(`${__dirname}/view/index.html`)
+	res.sendFile(`${__dirname}/views/index.html`)
+});
+app.get('/index',(req, res)=>{
+	res.sendFile(`${__dirname}/views/index.html`)
 });
 app.get('/additem',(req, res)=>{
-	res.sendFile(`${__dirname}/view/additem.html`)
+	res.sendFile(`${__dirname}/views/additem.html`)
 });
 app.get('/simulation',(req, res)=>{
-	res.sendFile(`${__dirname}/view/simulation.html`)
+	res.sendFile(`${__dirname}/views/simulation.html`)
 });
 
 //FILES PUBLIC
@@ -26,15 +27,11 @@ the request(POST, PUT, DELL, GET) find the specific function
 and deliver it to the client.
 */
 app.use(express.json());
-app.get('/json',(req,res)=>{
-	res.json(jsonFile);
-})
-app.post('/json', (req,res)=>{
-	console.log(`${req.body}`);
-	res.json(jsonFile);
-});
+app.use(express.urlencoded({
+    extended : false
+}));
+require('./controllers/jsonControl.js')(app);
 
-//start service
 app.listen(80, (err)=>{
 	console.log("Servidor Iniciado na porta: 80 ;")
 })
