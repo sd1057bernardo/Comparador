@@ -17,13 +17,12 @@ const fs = require('fs');
             database.splice(leng,0, query);
         }
         obj = database;
-        console.table(database);
         json = JSON.stringify(obj);
         fs.writeFile("./database/db.json", json, (err)=>{
             if(err) throw err;
-            else { return true;}
+            console.log(err);
         });
-        return false;
+        return true;
     } catch(e){
         console.log(e)
         return false;

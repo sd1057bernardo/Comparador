@@ -1,7 +1,7 @@
 const database = require('../database/db.json');
 const fs = require('fs');
 function remove(query){
-    query.name = query.toLowerCase();
+    query.name = query.name.toLowerCase();
     try{
     if(query){
         for(row in database){

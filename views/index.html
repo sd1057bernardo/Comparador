@@ -15,9 +15,6 @@
 				<a class="nav-link active" aria-current="page" href="/" role="list">Home</a>
 			  </li>
 			  <li class="nav-item">
-				<a class="nav-link" href="/additem" role="list">Adicionar Produtos</a>
-			  </li>
-			  <li class="nav-item">
 				<a class="nav-link" href="/simulation" role="list" >Simular Compra</a>
 			  </li>
 			</ul>
@@ -37,30 +34,37 @@
 			  <tbody>
 			  </tbody>
 			</table>
+
 			<br />
 		</div>
 	</body>
 	<script type="text/javascript">
-		DB = [
-		{name : "Produto1", bomdia : 2.99, queiroz : 2.88, date : "Fri Sep 17 2021"},
-		{name : "Produto2", bomdia : 3.99, queiroz : 5.88, date : "Fri Sep 17 2021"},
-		{name : "Produto3", bomdia : 3.99, queiroz : 5.88, date : "Sat Sep 18 2021"},
-		{name : "Produto4", bomdia : 8.99, queiroz : 5.88, date : "Sat Sep 18 2021"},
-		{name : "Produto5", bomdia : 5.88, queiroz : 5.88, date : "Sat Sep 18 2021"},
-		
-		];
-		
+	DB = null;
+	var myInit = { method: 'GET',
+               cache: 'default'
+		};
+		fetch(`/json/`, myInit).then((response)=>{
+			if(response.ok){
+				response.json().then(data =>{
+				console.table(data);
+				DB = data;
+				datalistPopulate();
+				})
+			} else {
+				console.log("Fetch não funcionou!");
+			}
+		});
 		
 		const tbody = document.querySelector("tbody");
 		const datalist = document.querySelector("#datalistOptions");
+		const form_control = document.querySelector(".form-control");		
 		
-		function showPriceDay(){
+		function showPriceDay(query){
 			for(row in DB){
 				if(DB[row].date == new Date().toDateString()){
 					const {name, bomdia, queiroz} = DB[row];
 					tbody.innerHTML+=`<tr id='tr${row}'><td><span id="Name${row}">${name}</span></td><td><span id="BomDia${row}" class="badge rounded-pill">${bomdia}</span></td><td><span id="Queiroz${row}" class="badge rounded-pill">${queiroz}</span></td></tr>`;
 						
-					document.querySelector(`#Name${row}`).innerHTML=name;
 					BD = document.querySelector(`#Bomdia${row}`);
 					QZ = document.querySelector(`#Queiroz${row}`)
 					if(bomdia < queiroz){
@@ -72,8 +76,12 @@
 						QZ.classList.add('bg-success');
 					}
 					if(bomdia == queiroz){
-						QZ.classList.add('bg-info');
-						BD.classList.add('bg-info');
+						QZ.classList.add('bg-primary');
+						BD.classList.add('bg-primary');
+					}
+					if(bomdia == null || queiroz == null){
+						QZ.classList.add('bg-warning');
+						BD.classList.add('bg-warning');
 					}
 				}
 			}
@@ -84,6 +92,8 @@
 			}
 			showPriceDay();
 		}
-		datalistPopulate();
+		form_control.addEventListener("change", ()=>{
+			
+		});
 	</script>
 </html>

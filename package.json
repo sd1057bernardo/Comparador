@@ -9,6 +9,7 @@
   "keywords": [],
   "author": "Matheus Fernandes",
   "license": "MIT",
+  "nodemonConfig": { "ignore": ["database/*.json", "public/*", "views/*"]},
   "dependencies": {
     "express": "^4.17.1",
     "nodemon": "^2.0.12"
