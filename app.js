@@ -10,8 +10,8 @@ app.get('/',(req, res)=>{
 app.get('/index',(req, res)=>{
 	res.sendFile(`${__dirname}/views/index.html`)
 });
-app.get('/additem',(req, res)=>{
-	res.sendFile(`${__dirname}/views/additem.html`)
+app.get('/modifier',(req, res)=>{
+	res.sendFile(`${__dirname}/views/modifier.html`)
 });
 app.get('/simulation',(req, res)=>{
 	res.sendFile(`${__dirname}/views/simulation.html`)

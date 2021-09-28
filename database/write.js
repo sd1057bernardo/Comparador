@@ -2,6 +2,7 @@ const database = require('../database/db.json');
 const search = require('../database/search.js')
 const fs = require('fs');
  function write(query){
+     console.table(query);
      query.name = query.name.toLowerCase();
      query.bomdia = parseFloat(query.bomdia);
      query.queiroz = parseFloat(query.queiroz);
