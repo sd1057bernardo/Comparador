@@ -1,10 +1,10 @@
+<!doctype html>
 <html lang="pt-br">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Compare Preços</title>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	</head>
 	<body class="bg-dark">
 		<section class="container-fluid bg-light">
@@ -14,10 +14,10 @@
 					<a class="nav-link active" href="/">Inicio</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#modifier" onclick="modifierPage()">Adicionar / Modificar</a>
+					<a class="nav-link" href="/modifier">Adicionar / Modificar</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#about">Sobre</a>
+					<a class="nav-link" href="/about">Sobre</a>
 				</li>
 			</ul>
 			<br />
@@ -33,9 +33,60 @@
 					</thead>
 					<tbody class="tbody"></tbody>
 				  </table>
+				  <div class="spinner d-flex justify-content-center">
+					<div class="spinner-border" role="status">
+					  <span class="visually-hidden">Loading...</span>
+					</div>
+				  </div>
 				  <br />
 			</section>
 		</section>
 	</body>
-	<script src="/public/index.js" type="text/javascript"defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script type="text/javascript"defer>
+	fetch("json/")
+    .then((response)=>{
+        if(response.ok){
+           return response.json();
+        };
+    }).then((data)=>{
+        data = data.sort((a,b)=>{
+            if(a.name > b.name){
+                return 1;
+            }
+            if(a.name < b.name){
+                return -1;
+            } return 0
+        });
+        tablePopulate(data);
+    });
+	function tablePopulate(data){
+	document.querySelector(".spinner").innerHTML="";
+    for(row in data){
+		a = data[row].name.slice(0,1);
+        a = a.toUpperCase();
+        b = data[row].name.slice(1);
+        data[row].name = a+b;
+        let {name, bomdia, queiroz, date} = data[row];
+        if(bomdia < queiroz){
+            bdspan = `<span class="btn btn-success">${currencyBRL(bomdia)}</span>`;
+            qzspan = `<span class="btn btn-danger">${currencyBRL(queiroz)}</span>`;}
+        if(bomdia > queiroz){
+            bdspan = `<span class="btn btn-danger">${currencyBRL(bomdia)}</span>`;
+            qzspan = `<span class="btn btn-success">${currencyBRL(queiroz)}</span>`;}
+        if(bomdia == queiroz || bomdia < 0.10 || queiroz < 0.10){
+            bdspan = `<span class="btn btn-secondary">${currencyBRL(bomdia)}</span>`;
+            qzspan = `<span class="btn btn-secondary">${currencyBRL(queiroz)}</span>`;}
+        document.querySelector("tbody").innerHTML+=`<tr><th scope="row">${row}</th><td>${name}</td><td>${bdspan}</td><td>${qzspan}</td></tr>`;
+    }
+}
+const currencyBRL = (value) => {
+    const formattedValue = value.toLocaleString(
+      'pt-BR', 
+      { style: 'currency', currency: 'BRL'}
+    );
+  
+      return formattedValue;
+  };
+	</script>
 </html>

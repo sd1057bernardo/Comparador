@@ -13,8 +13,8 @@ app.get('/index',(req, res)=>{
 app.get('/modifier',(req, res)=>{
 	res.sendFile(`${__dirname}/views/modifier.html`)
 });
-app.get('/simulation',(req, res)=>{
-	res.sendFile(`${__dirname}/views/simulation.html`)
+app.get('/about',(req, res)=>{
+	res.sendFile(`${__dirname}/views/about.html`)
 });
 
 //FILES PUBLIC

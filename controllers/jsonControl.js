@@ -22,7 +22,7 @@ router.get('/search', (req, res)=>{
     }
     showdb();
 });
-router.put('/', (req, res)=>{
+router.post('/', (req, res)=>{
     query = req.body;
     if(write(req.body)){
         res.status('200').json(query);
@@ -31,7 +31,7 @@ router.put('/', (req, res)=>{
     }
     showdb();
 });
-router.delete('/', (req, res)=>{
+router.post('/dell', (req, res)=>{
     query = req.body;
     if(remove(req.body)){
         res.json(query);

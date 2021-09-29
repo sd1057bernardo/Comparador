@@ -3,10 +3,11 @@ const search = require('../database/search.js')
 const fs = require('fs');
  function write(query){
      console.table(query);
-     query.name = query.name.toLowerCase();
+     query.name = query.name.toLowerCase().trim();
      query.bomdia = parseFloat(query.bomdia);
      query.queiroz = parseFloat(query.queiroz);
      query.date = new Date().toDateString();
+        if(query.name == "") return false;
     try{
         leng = database.length;
         if(search(query.name)){
